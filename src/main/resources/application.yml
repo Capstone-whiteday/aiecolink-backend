@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: aiecolink
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    csrf:
+      enabled: true
+
+
