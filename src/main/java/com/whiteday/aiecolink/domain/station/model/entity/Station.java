@@ -1,5 +1,6 @@
 package com.whiteday.aiecolink.domain.station.model.entity;
 
+import com.whiteday.aiecolink.domain.user.model.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,10 +16,13 @@ public class Station {
     @Column(name = "station_id")
     private Long stationId;
 
-    @Column(nullable = false, columnDefinition = "varchar(30)")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
+
+    @Column(nullable = false, length = 30)
     private String name;
 
-    @Column(nullable = false, columnDefinition = "varchar(100)")
+    @Column(nullable = false, length = 100)
     private String location;
 
     @Column(nullable = false, columnDefinition = "timestamp")
