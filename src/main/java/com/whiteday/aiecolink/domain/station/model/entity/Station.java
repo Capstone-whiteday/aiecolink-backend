@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -31,8 +33,10 @@ public class Station {
     private String location;
 
     @Column(nullable = false, columnDefinition = "timestamp")
+    @CreationTimestamp
     private LocalDateTime createdAt;
 
     @Column(nullable = false, columnDefinition = "timestamp")
+    @UpdateTimestamp
     private LocalDateTime updatedAt;
 }
