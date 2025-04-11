@@ -4,19 +4,22 @@ import com.whiteday.aiecolink.domain.station.model.StationRegisterRes;
 import com.whiteday.aiecolink.domain.station.model.entity.Station;
 import com.whiteday.aiecolink.domain.station.model.request.StationRegisterReq;
 import com.whiteday.aiecolink.domain.station.repository.StationRepository;
-import com.whiteday.aiecolink.domain.user.model.User;
+import com.whiteday.aiecolink.domain.user.UserRepository;
 import com.whiteday.aiecolink.global.error.CustomException;
 import com.whiteday.aiecolink.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class StationService {
 
     private final StationRepository stationRepository;
+    private final UserRepository userRepository;
 
-    public String register(User user, StationRegisterReq registerReq){
+    public StationRegisterRes register(StationRegisterReq registerReq){
         // 중복 체크
         stationRepository.findByStationName(registerReq.getStationName())
                 .ifPresent(x ->{
@@ -26,10 +29,10 @@ public class StationService {
         Station station = stationRepository.save(Station.builder()
                 .name(registerReq.getStationName())
                 .location(registerReq.getLocation())
-                .user(user)
+                .user(userRepository.getByName(registerReq.getUser().getUserId()))
                 .build()
         );
-        
-        return "충전소 등록";
+
+        return new StationRegisterRes().toDto(station);
     }
 }
