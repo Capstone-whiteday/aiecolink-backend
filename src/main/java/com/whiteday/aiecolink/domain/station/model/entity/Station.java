@@ -17,6 +17,7 @@ public class Station {
     private Long stationId;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User user;
 
     @Column(nullable = false, length = 30)
