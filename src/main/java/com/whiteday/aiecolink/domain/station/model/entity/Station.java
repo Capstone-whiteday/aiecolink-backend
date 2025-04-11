@@ -2,13 +2,17 @@ package com.whiteday.aiecolink.domain.station.model.entity;
 
 import com.whiteday.aiecolink.domain.user.model.User;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Entity
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 public class Station {
     @Id
