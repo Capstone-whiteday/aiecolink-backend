@@ -1,6 +1,6 @@
 package com.whiteday.aiecolink.domain.station.model.entity;
 
-import com.whiteday.aiecolink.domain.user.model.User;
+import com.whiteday.aiecolink.member.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
