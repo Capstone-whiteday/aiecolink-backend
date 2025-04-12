@@ -27,4 +27,5 @@ springdoc:
 
 logging:
   level:
+    org.springframework.security: debug
     org.hibernate.SQL: debug
