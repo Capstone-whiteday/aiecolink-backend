@@ -7,8 +7,10 @@ import org.springframework.http.HttpStatus;
 @Getter
 @AllArgsConstructor
 public enum ErrorCode {
-    STATION_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "이미 등록된 충전소입니다.");
-
+    STATION_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "이미 등록된 충전소입니다."),
+    STATION_DOES_NOT_EXIST(HttpStatus.BAD_REQUEST, "충전소가 존재하지 않습니다."),
+    STATION_IS_NOT_YOURS(HttpStatus.FORBIDDEN, "본인의 충전소만 조회할 수 있습니다."),
+    TEST_USER_NOT_EXISTS(HttpStatus.BAD_REQUEST,"테스트 사용자를 찾을 수 없습니다.");
     private final HttpStatus status;
     private final String message;
 

@@ -1,5 +1,6 @@
 package com.whiteday.aiecolink.domain.station.model.entity;
 
+import com.whiteday.aiecolink.domain.station.model.Status;
 import com.whiteday.aiecolink.member.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -39,4 +40,19 @@ public class Station {
     @Column(nullable = false, columnDefinition = "timestamp")
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Status status;
+
+    @Column
+    private String description;
+
+    public void update(String name, String description,Status status) {
+        this.name = name;
+        this.description = description;
+        this.status = status;
+        this.updatedAt = LocalDateTime.now();
+    }
+
 }
