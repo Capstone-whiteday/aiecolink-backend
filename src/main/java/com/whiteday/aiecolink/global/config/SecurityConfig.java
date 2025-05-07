@@ -1,4 +1,4 @@
-package com.whiteday.aiecolink.config;
+package com.whiteday.aiecolink.global.config;
 
 import com.whiteday.aiecolink.jwt.JwtTokenProvider;
 import com.whiteday.aiecolink.jwt.JwtAuthenticationFilter;
