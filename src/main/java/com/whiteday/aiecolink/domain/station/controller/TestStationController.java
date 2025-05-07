@@ -35,8 +35,8 @@ public class TestStationController {
                     .password("test")
                     .role(Role.USER)
                     .activated(true)
-                    .created_at(LocalDateTime.now())
-                    .updated_at(LocalDateTime.now())
+                    .createdAt(LocalDateTime.now())
+                    .updatedAt(LocalDateTime.now())
                     .build());
         }
         return ResponseEntity.ok("Test user initialized.");
