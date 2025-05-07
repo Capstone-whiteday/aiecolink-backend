@@ -20,14 +20,14 @@ public class UserService {
 
         User user = User.builder()
                 .email(requestDto.getEmail())
-                .password(requestDto.getPassword()) // 실제로는 암호화 필요
+                .password(requestDto.getPassword())
                 .activated(requestDto.getActivated() != null ? requestDto.getActivated() : true)
                 .role(requestDto.getRole() != null ? requestDto.getRole() : Role.USER)
-                .created_at(LocalDateTime.now())
-                .updated_at(LocalDateTime.now())
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
                 .build();
 
-        return userRepository.save(user).getUser_id();
+        return userRepository.save(user).getUserId();
     }
 
     public UserResponseDto getUserByEmail(String email) {
@@ -35,12 +35,12 @@ public class UserService {
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
 
         return UserResponseDto.builder()
-                .user_id(user.getUser_id())
+                .userId(user.getUserId())
                 .email(user.getEmail())
                 .activated(user.getActivated())
                 .role(user.getRole())
-                .created_at(user.getCreated_at())
-                .updated_at(user.getUpdated_at())
+                .createdAt(user.getCreatedAt())
+                .updatedAt(user.getUpdatedAt())
                 .build();
     }
 }
