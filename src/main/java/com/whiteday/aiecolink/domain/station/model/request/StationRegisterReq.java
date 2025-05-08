@@ -9,4 +9,5 @@ public class StationRegisterReq {
     private String location;
     private Status status;
     private String description;
+    private Long regionId;
 }
