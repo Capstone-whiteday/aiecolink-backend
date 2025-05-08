@@ -3,18 +3,19 @@ spring:
     name: aiecolink
 
   datasource:
-    url: jdbc:mysql://localhost:3306/${DB_NAME}?serverTimezone=Asia/Seoul
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    url: jdbc:mysql://localhost:3306/aieco_db?serverTimezone=Asia/Seoul
+    username: aieco_user
+    password: aieco_pass
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
+    show-sql: true
     properties:
       hibernate:
         format_sql: true
-    show-sql: true
+        dialect: org.hibernate.dialect.MySQL8Dialect
 
 springdoc:
   api-docs:
@@ -23,5 +24,10 @@ springdoc:
     csrf:
       enabled: true
 
+logging:
+  level:
+    org.springframework.security: debug
+    org.hibernate.SQL: debug
+
 jwt:
-  secret: ${JWT_SECRET_KEY}
+  secret: your-secret-key-which-should-be-very-secure-and-long
