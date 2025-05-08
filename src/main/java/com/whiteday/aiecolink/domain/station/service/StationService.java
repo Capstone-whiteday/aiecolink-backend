@@ -66,7 +66,7 @@ public class StationService {
                 .orElseThrow(() -> new CustomException(ErrorCode.STATION_DOES_NOT_EXIST));
 
         // 사용자 소유 확인
-        if (!station.getUser().getUser_id().equals(user.getUser_id())) {
+        if (!station.getUser().getUserId().equals(user.getUserId())) {
             throw new CustomException(ErrorCode.STATION_IS_NOT_YOURS);
         }
 
@@ -87,7 +87,7 @@ public class StationService {
                 .orElseThrow(() -> new CustomException(ErrorCode.STATION_DOES_NOT_EXIST));
 
         // 사용자 소유 확인
-        if (!station.getUser().getUser_id().equals(user.getUser_id())) {
+        if (!station.getUser().getUserId().equals(user.getUserId())) {
             throw new CustomException(ErrorCode.STATION_IS_NOT_YOURS);
         }
 
@@ -109,7 +109,7 @@ public class StationService {
                 .orElseThrow(() -> new CustomException(ErrorCode.STATION_DOES_NOT_EXIST));
 
         // 사용자 소유 확인
-        if (!station.getUser().getUser_id().equals(user.getUser_id())) {
+        if (!station.getUser().getUserId().equals(user.getUserId())) {
             throw new CustomException(ErrorCode.STATION_IS_NOT_YOURS);
         }
 

@@ -27,7 +27,7 @@ public class UserService {
                 .updated_at(LocalDateTime.now())
                 .build();
 
-        return userRepository.save(user).getUser_id();
+        return userRepository.save(user).getUserId();
     }
 
     public UserResponseDto getUserByEmail(String email) {
@@ -35,7 +35,7 @@ public class UserService {
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
 
         return UserResponseDto.builder()
-                .user_id(user.getUser_id())
+                .user_id(user.getUserId())
                 .email(user.getEmail())
                 .activated(user.getActivated())
                 .role(user.getRole())
