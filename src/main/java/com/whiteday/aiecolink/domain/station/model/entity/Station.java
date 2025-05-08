@@ -30,7 +30,11 @@ public class Station {
     @Column(nullable = false, length = 30)
     private String name;
 
-    @Column(nullable = false, length = 100)
+    @ManyToOne
+    @JoinColumn(name = "region_id")
+    private Region region;
+
+    @Column(nullable = false,length = 50)
     private String location;
 
     @Column(nullable = false, columnDefinition = "timestamp")
