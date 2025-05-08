@@ -3,9 +3,11 @@ package com.whiteday.aiecolink.domain.station.service;
 import com.whiteday.aiecolink.domain.station.model.StationRegisterRes;
 import com.whiteday.aiecolink.domain.station.model.StationRes;
 import com.whiteday.aiecolink.domain.station.model.StationSummaryRes;
+import com.whiteday.aiecolink.domain.station.model.entity.Region;
 import com.whiteday.aiecolink.domain.station.model.entity.Station;
 import com.whiteday.aiecolink.domain.station.model.request.StationRegisterReq;
 import com.whiteday.aiecolink.domain.station.model.request.StationUpdateReq;
+import com.whiteday.aiecolink.domain.station.repository.RegionRepository;
 import com.whiteday.aiecolink.domain.station.repository.StationRepository;
 import com.whiteday.aiecolink.global.error.CustomException;
 import com.whiteday.aiecolink.global.error.ErrorCode;
@@ -23,6 +25,7 @@ import java.util.stream.Collectors;
 public class StationService {
 
     private final StationRepository stationRepository;
+    private final RegionRepository regionRepository;
 
     public StationRegisterRes register(User user, StationRegisterReq registerReq){
         // 중복 체크
@@ -31,12 +34,16 @@ public class StationService {
                     throw new CustomException(ErrorCode.STATION_ALREADY_EXISTS);
                 });
 
+        Region region = regionRepository.findById(registerReq.getRegionId())
+                .orElseThrow(() -> new CustomException(ErrorCode.REGION_NOT_FOUND));
+
         Station station = stationRepository.save(Station.builder()
                 .name(registerReq.getStationName())
                 .location(registerReq.getLocation())
                 .status(registerReq.getStatus())
                 .description(registerReq.getDescription())
                 .user(user)
+                .region(region)
                 .build()
         );
 
@@ -70,7 +77,8 @@ public class StationService {
                 station.getCreatedAt(),
                 station.getUpdatedAt(),
                 station.getStatus(),
-                station.getDescription()
+                station.getDescription(),
+                station.getRegion().getRegionName()
         );
     }
 
@@ -91,7 +99,8 @@ public class StationService {
                 station.getCreatedAt(),
                 station.getUpdatedAt(),
                 station.getStatus(),
-                station.getDescription()
+                station.getDescription(),
+                station.getRegion().getRegionName()
         );
     }
 
