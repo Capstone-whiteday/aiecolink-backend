@@ -15,4 +15,5 @@ public class StationRes {
     private LocalDateTime updatedAt;
     private Status status;
     private String description;
+    private String regionName;
 }
