@@ -1,5 +1,7 @@
-package com.whiteday.aiecolink.user;
+package com.whiteday.aiecolink.domain.user;
 
+import com.whiteday.aiecolink.global.error.CustomException;
+import com.whiteday.aiecolink.global.error.ErrorCode;
 import com.whiteday.aiecolink.jwt.JwtTokenProvider;
 import com.whiteday.aiecolink.member.Role;
 import com.whiteday.aiecolink.member.User;
@@ -23,23 +25,20 @@ public class UserAuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UserLoginRequestDto requestDto) {
         User user = userRepository.findByEmail(requestDto.getEmail())
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 이메일입니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         if (!passwordEncoder.matches(requestDto.getPassword(), user.getPassword())) {
-            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+            throw new CustomException(ErrorCode.PASSWORD_MISMATCH);
         }
 
         String token = jwtTokenProvider.createToken(user.getEmail(), user.getRole().name());
-
         return ResponseEntity.ok().body(token);
     }
-
-
 
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody UserSignupRequestDto requestDto) {
         if (userRepository.existsByEmail(requestDto.getEmail())) {
-            return ResponseEntity.badRequest().body("이미 존재하는 이메일입니다.");
+            throw new CustomException(ErrorCode.EMAIL_ALREADY_EXISTS);
         }
 
         User user = User.builder()
@@ -53,10 +52,6 @@ public class UserAuthController {
                 .build();
 
         userRepository.save(user);
-
         return ResponseEntity.ok().body("회원가입 성공");
     }
-
-
-
 }

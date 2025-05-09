@@ -1,12 +1,11 @@
-package com.whiteday.aiecolink.user;
+package com.whiteday.aiecolink.domain.user;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class UserSignupRequestDto {
-    private String name;
+public class UserLoginRequestDto {
     private String email;
     private String password;
 }

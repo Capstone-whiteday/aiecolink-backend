@@ -1,4 +1,4 @@
-package com.whiteday.aiecolink.admin;
+package com.whiteday.aiecolink.domain.admin.dto;
 
 import lombok.Getter;
 

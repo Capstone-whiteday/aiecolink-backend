@@ -1,5 +1,7 @@
 package com.whiteday.aiecolink.member;
 
+import com.whiteday.aiecolink.global.error.CustomException;
+import com.whiteday.aiecolink.global.error.ErrorCode;
 import com.whiteday.aiecolink.member.dto.UserRequestDto;
 import com.whiteday.aiecolink.member.dto.UserResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +17,7 @@ public class UserService {
 
     public Long registerUser(UserRequestDto requestDto) {
         if (userRepository.existsByEmail(requestDto.getEmail())) {
-            throw new IllegalArgumentException("이미 존재하는 이메일입니다.");
+            throw new CustomException(ErrorCode.EMAIL_ALREADY_EXISTS);
         }
 
         User user = User.builder()
@@ -32,7 +34,7 @@ public class UserService {
 
     public UserResponseDto getUserByEmail(String email) {
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         return UserResponseDto.builder()
                 .userId(user.getUserId())
