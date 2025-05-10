@@ -12,16 +12,15 @@ public class SwaggerConfig {
 
     @Bean
     public OpenAPI openAPI() {
-        // SecurityScheme 설정
         SecurityScheme securityScheme = new SecurityScheme()
                 .type(SecurityScheme.Type.HTTP)
                 .scheme("bearer")
                 .bearerFormat("JWT")
+                .in(SecurityScheme.In.HEADER)
                 .name("Authorization");
 
-        // SecurityRequirement 설정
         SecurityRequirement securityRequirement = new SecurityRequirement()
-                .addList("Authorization");
+                .addList("BearerAuth");
 
         return new OpenAPI()
                 .info(new Info()
@@ -29,6 +28,6 @@ public class SwaggerConfig {
                         .version("1.0")
                         .description("aiecolink api 입니다."))
                 .addSecurityItem(securityRequirement)
-                .schemaRequirement("Authorization", securityScheme);
+                .schemaRequirement("BearerAuth", securityScheme);
     }
 }
