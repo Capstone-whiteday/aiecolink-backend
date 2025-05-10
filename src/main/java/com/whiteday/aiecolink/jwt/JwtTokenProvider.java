@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
+import jakarta.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
@@ -28,7 +29,6 @@ public class JwtTokenProvider {
     public String createToken(String email, String role) {
         Claims claims = Jwts.claims().setSubject(email);
         claims.put("role", role);
-        System.out.println("JWT Role: " + role);
         Date now = new Date();
 
         return Jwts.builder()
@@ -46,9 +46,10 @@ public class JwtTokenProvider {
                     .build()
                     .parseClaimsJws(token);
             return true;
-        } catch (Exception e) {
-            return false;
+        } catch (ExpiredJwtException e) {
+        } catch (JwtException | IllegalArgumentException e) {
         }
+        return false;
     }
 
     public Claims getClaims(String token) {
@@ -57,5 +58,21 @@ public class JwtTokenProvider {
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
+    }
+
+    public String resolveToken(HttpServletRequest request) {
+        String bearerToken = request.getHeader("Authorization");
+
+        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+            String rawToken = bearerToken.substring(7).trim();
+            return rawToken;
+        }
+
+        return null;
+    }
+
+    public String getEmailFromToken(String token) {
+        Claims claims = getClaims(token);
+        return claims.getSubject(); // 이메일은 토큰의 subject로 저장됨
     }
 }
