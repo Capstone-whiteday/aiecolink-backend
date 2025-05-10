@@ -20,7 +20,6 @@ import java.time.LocalDateTime;
 public class Station {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "station_id")
     private Long stationId;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -30,7 +29,11 @@ public class Station {
     @Column(nullable = false, length = 30)
     private String name;
 
-    @Column(nullable = false, length = 100)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "region_id")
+    private Region region;
+
+    @Column(nullable = false,length = 50)
     private String location;
 
     @Column(nullable = false, columnDefinition = "timestamp")
