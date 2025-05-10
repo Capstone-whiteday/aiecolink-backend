@@ -1,7 +1,6 @@
 package com.whiteday.aiecolink.member.security;
 
 import com.whiteday.aiecolink.member.User;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,10 +8,16 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Collections;
 
-@RequiredArgsConstructor
 public class CustomUserDetails implements UserDetails {
 
     private final User user;
+
+    public CustomUserDetails(User user) {
+        if (user == null) {
+            throw new IllegalArgumentException("User cannot be null");
+        }
+        this.user = user;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -52,6 +57,9 @@ public class CustomUserDetails implements UserDetails {
     }
 
     public User getUser() {
+        if (this.user == null) {
+            throw new IllegalStateException("User is null");
+        }
         return this.user;
     }
 }
