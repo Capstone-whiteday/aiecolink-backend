@@ -6,7 +6,7 @@ import com.whiteday.aiecolink.domain.station.model.StationSummaryRes;
 import com.whiteday.aiecolink.domain.station.model.request.StationRegisterReq;
 import com.whiteday.aiecolink.domain.station.model.request.StationUpdateReq;
 import com.whiteday.aiecolink.domain.station.service.StationService;
-import com.whiteday.aiecolink.global.CustomUserDetails;
+import com.whiteday.aiecolink.member.security.CustomUserDetails;
 import com.whiteday.aiecolink.member.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

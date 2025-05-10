@@ -5,7 +5,6 @@ import com.whiteday.aiecolink.domain.station.model.StationSummaryRes;
 import com.whiteday.aiecolink.domain.station.model.request.StationRegisterReq;
 import com.whiteday.aiecolink.domain.station.model.request.StationUpdateReq;
 import com.whiteday.aiecolink.domain.station.service.StationService;
-import com.whiteday.aiecolink.global.CustomUserDetails;
 import com.whiteday.aiecolink.global.error.CustomException;
 import com.whiteday.aiecolink.global.error.ErrorCode;
 import com.whiteday.aiecolink.member.Role;
@@ -14,7 +13,6 @@ import com.whiteday.aiecolink.member.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -35,8 +33,8 @@ public class TestStationController {
                     .password("test")
                     .role(Role.USER)
                     .activated(true)
-                    .created_at(LocalDateTime.now())
-                    .updated_at(LocalDateTime.now())
+                    .createdAt(LocalDateTime.now())
+                    .updatedAt(LocalDateTime.now())
                     .build());
         }
         return ResponseEntity.ok("Test user initialized.");

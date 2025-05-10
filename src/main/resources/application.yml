@@ -1,10 +1,11 @@
 spring:
   application:
     name: aiecolink
+
   datasource:
-    url : jdbc:mysql://localhost:3306/${DB_NAME}?useSSL=false&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&characterEncoding=UTF-8
-    username : ${DB_USERNAME}
-    password : ${DB_PASSWORD}
+    url: jdbc:mysql://localhost:3306/aieco_db?serverTimezone=Asia/Seoul
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
@@ -19,16 +20,17 @@ spring:
     init:
       mode: always
 
----
 springdoc:
   api-docs:
     enabled: true
   swagger-ui:
     csrf:
       enabled: true
----
 
 logging:
   level:
     org.springframework.security: debug
     org.hibernate.SQL: debug
+
+jwt:
+  secret: ${JWT_SECRET}
