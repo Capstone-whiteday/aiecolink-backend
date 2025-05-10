@@ -1,4 +1,4 @@
-package com.whiteday.aiecolink.global;
+/*package com.whiteday.aiecolink.global;
 
 import com.whiteday.aiecolink.member.User;
 import lombok.AllArgsConstructor;
@@ -32,3 +32,4 @@ public class CustomUserDetails implements UserDetails {
         return user.getEmail();
     }
 }
+*/
