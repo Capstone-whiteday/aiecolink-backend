@@ -22,15 +22,11 @@ public class SolarforecastHourly {
     @JoinColumn(name = "solarforecast_id")
     private SolarforecastPlan solarforecastPlan;
 
-    @Column(nullable = false)
-    private LocalDate forecastDate;
-
     @Column
     private int time;
     @Column
     private float instantGeneration;
     @Column
     private float solarBattery;
-    @Column
-    private float output;
+
 }

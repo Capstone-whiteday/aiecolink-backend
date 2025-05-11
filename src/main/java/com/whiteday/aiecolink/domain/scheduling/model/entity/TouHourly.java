@@ -24,9 +24,6 @@ public class TouHourly {
     private int time;
 
     @Column(nullable = false)
-    private float price;
-
-    @Column(nullable = false)
     private float totalLoadForecast;
 
     @Column(nullable = false)
