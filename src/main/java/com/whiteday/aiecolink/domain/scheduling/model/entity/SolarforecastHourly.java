@@ -6,8 +6,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
 @Entity
 @Builder
 @NoArgsConstructor
@@ -23,7 +21,7 @@ public class SolarforecastHourly {
     private SolarforecastPlan solarforecastPlan;
 
     @Column
-    private int time;
+    private int hour;
     @Column
     private float instantGeneration;
     @Column

@@ -22,7 +22,7 @@ public class SchedulingHourly {
     private SchedulingPlan schedulingPlan;
 
     @Column
-    private int time;
+    private int hour;
     @Column
     private float predictSolar;
     @Column
