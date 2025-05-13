@@ -3,9 +3,9 @@ spring:
     name: aiecolink
 
   datasource:
-    url: jdbc:mysql://${DB_HOST}:3306/${DB_PROD-NAME}?serverTimezone=Asia/Seoul
-    username: ${DB_PROD-USERNAME}
-    password: ${DB_PROD-PASSWORD}
+    url: jdbc:mysql://${DB_HOST}:3306/${DB_PROD_NAME}?serverTimezone=Asia/Seoul
+    username: ${DB_PROD_USERNAME}
+    password: ${DB_PROD_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
