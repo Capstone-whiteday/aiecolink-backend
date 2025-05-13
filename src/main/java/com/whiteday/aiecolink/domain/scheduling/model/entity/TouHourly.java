@@ -21,7 +21,7 @@ public class TouHourly {
     private TouPlan touPlan;
 
     @Column(nullable = false)
-    private int time;
+    private int hour;
 
     @Column(nullable = false)
     private float totalLoadForecast;
