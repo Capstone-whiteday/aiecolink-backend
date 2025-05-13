@@ -1,36 +1,3 @@
 spring:
-  application:
-    name: aiecolink
-
-  datasource:
-    url: jdbc:mysql://localhost:3306/${DB_NAME}?serverTimezone=Asia/Seoul
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
-    driver-class-name: com.mysql.cj.jdbc.Driver
-
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
-        dialect: org.hibernate.dialect.MySQL8Dialect
-  sql:
-    init:
-      mode: always
-
-springdoc:
-  api-docs:
-    enabled: true
-  swagger-ui:
-    csrf:
-      enabled: true
-
-logging:
-  level:
-    org.springframework.security: debug
-    org.hibernate.SQL: debug
-
-jwt:
-  secret: ${JWT_SECRET}
+  profiles:
+    active: dev  # 기본은 로컬 개발 환경
