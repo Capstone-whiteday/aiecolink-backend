@@ -1,6 +1,6 @@
 package com.whiteday.aiecolink.jwt;
 
-import com.whiteday.aiecolink.member.security.CustomUserDetailsService;
+import com.whiteday.aiecolink.domain.member.security.CustomUserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
