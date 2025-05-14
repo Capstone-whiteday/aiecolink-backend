@@ -1,13 +1,13 @@
-package com.whiteday.aiecolink.domain.admin;
+package com.whiteday.aiecolink.domain.admin.controller;
 
 import com.whiteday.aiecolink.domain.admin.dto.AdminLoginRequestDto;
 import com.whiteday.aiecolink.domain.admin.dto.AdminSignupRequestDto;
 import com.whiteday.aiecolink.global.error.CustomException;
 import com.whiteday.aiecolink.global.error.ErrorCode;
 import com.whiteday.aiecolink.jwt.JwtTokenProvider;
-import com.whiteday.aiecolink.member.Role;
-import com.whiteday.aiecolink.member.User;
-import com.whiteday.aiecolink.member.UserRepository;
+import com.whiteday.aiecolink.domain.member.model.Role;
+import com.whiteday.aiecolink.domain.member.model.entity.User;
+import com.whiteday.aiecolink.domain.member.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
