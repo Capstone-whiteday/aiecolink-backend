@@ -1,17 +1,20 @@
-package com.whiteday.aiecolink.domain.user;
+package com.whiteday.aiecolink.domain.member.controller;
 
+import com.whiteday.aiecolink.domain.member.dto.UserLoginRequestDto;
+import com.whiteday.aiecolink.domain.member.dto.UserSignupRequestDto;
 import com.whiteday.aiecolink.global.error.CustomException;
 import com.whiteday.aiecolink.global.error.ErrorCode;
 import com.whiteday.aiecolink.jwt.JwtTokenProvider;
-import com.whiteday.aiecolink.member.Role;
-import com.whiteday.aiecolink.member.User;
-import com.whiteday.aiecolink.member.UserRepository;
+import com.whiteday.aiecolink.domain.member.model.Role;
+import com.whiteday.aiecolink.domain.member.model.entity.User;
+import com.whiteday.aiecolink.domain.member.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
@@ -32,7 +35,10 @@ public class UserAuthController {
         }
 
         String token = jwtTokenProvider.createToken(user.getEmail(), user.getRole().name());
-        return ResponseEntity.ok().body(token);
+        return ResponseEntity.ok().body(Map.of(
+                "success", true,
+                "token", token
+        ));
     }
 
     @PostMapping("/signup")
@@ -52,6 +58,10 @@ public class UserAuthController {
                 .build();
 
         userRepository.save(user);
-        return ResponseEntity.ok().body("회원가입 성공");
+        // ✅ JSON 형태로 응답
+        return ResponseEntity.ok().body(Map.of(
+                "success", true,
+                "message", "회원가입 성공"
+        ));
     }
 }

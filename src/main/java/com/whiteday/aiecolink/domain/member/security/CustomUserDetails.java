@@ -1,6 +1,6 @@
-package com.whiteday.aiecolink.member.security;
+package com.whiteday.aiecolink.domain.member.security;
 
-import com.whiteday.aiecolink.member.User;
+import com.whiteday.aiecolink.domain.member.model.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
