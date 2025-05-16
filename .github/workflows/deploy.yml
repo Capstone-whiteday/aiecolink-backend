@@ -20,3 +20,4 @@ jobs:
             cd ~/aiecolink-backend
             git pull origin main
             ./deploy.sh
+          command_timeout: 30m

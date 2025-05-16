@@ -1,5 +1,6 @@
-package com.whiteday.aiecolink.member;
+package com.whiteday.aiecolink.domain.member.repository;
 
+import com.whiteday.aiecolink.domain.member.model.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 

@@ -1,7 +1,7 @@
-package com.whiteday.aiecolink.member.security;
+package com.whiteday.aiecolink.domain.member.security;
 
-import com.whiteday.aiecolink.member.User;
-import com.whiteday.aiecolink.member.UserRepository;
+import com.whiteday.aiecolink.domain.member.model.entity.User;
+import com.whiteday.aiecolink.domain.member.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

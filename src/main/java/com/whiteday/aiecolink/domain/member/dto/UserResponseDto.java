@@ -1,6 +1,6 @@
-package com.whiteday.aiecolink.member.dto;
+package com.whiteday.aiecolink.domain.member.dto;
 
-import com.whiteday.aiecolink.member.Role;
+import com.whiteday.aiecolink.domain.member.model.Role;
 import lombok.*;
 
 import java.time.LocalDateTime;

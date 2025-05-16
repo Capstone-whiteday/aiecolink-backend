@@ -1,4 +1,4 @@
-package com.whiteday.aiecolink.domain.user;
+package com.whiteday.aiecolink.domain.member.dto;
 
 import lombok.Getter;
 import lombok.Setter;

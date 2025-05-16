@@ -11,7 +11,7 @@ import com.whiteday.aiecolink.domain.station.repository.RegionRepository;
 import com.whiteday.aiecolink.domain.station.repository.StationRepository;
 import com.whiteday.aiecolink.global.error.CustomException;
 import com.whiteday.aiecolink.global.error.ErrorCode;
-import com.whiteday.aiecolink.member.User;
+import com.whiteday.aiecolink.domain.member.model.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
