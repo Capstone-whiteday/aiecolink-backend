@@ -63,7 +63,7 @@ public class StationService {
 
     public StationRes readDetail(Long stationId, User user) {
         Station station = stationRepository.findById(stationId)
-                .orElseThrow(() -> new CustomException(ErrorCode.STATION_DOES_NOT_EXIST));
+                .orElseThrow(() -> new CustomException(ErrorCode.STATION_NOT_EXIST));
 
         // 사용자 소유 확인
         if (!station.getUser().getUserId().equals(user.getUserId())) {
@@ -84,7 +84,7 @@ public class StationService {
 
     public StationRes update(Long stationId, User user, StationUpdateReq req) {
         Station station = stationRepository.findById(stationId)
-                .orElseThrow(() -> new CustomException(ErrorCode.STATION_DOES_NOT_EXIST));
+                .orElseThrow(() -> new CustomException(ErrorCode.STATION_NOT_EXIST));
 
         // 사용자 소유 확인
         if (!station.getUser().getUserId().equals(user.getUserId())) {
@@ -106,7 +106,7 @@ public class StationService {
 
     public void delete(Long stationId, User user) {
         Station station = stationRepository.findById(stationId)
-                .orElseThrow(() -> new CustomException(ErrorCode.STATION_DOES_NOT_EXIST));
+                .orElseThrow(() -> new CustomException(ErrorCode.STATION_NOT_EXIST));
 
         // 사용자 소유 확인
         if (!station.getUser().getUserId().equals(user.getUserId())) {
