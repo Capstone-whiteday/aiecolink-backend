@@ -1,10 +1,14 @@
 package com.whiteday.aiecolink.domain.scheduling.service;
 
 
-import com.whiteday.aiecolink.domain.scheduling.controller.SchedulingDashboardRes;
+import com.whiteday.aiecolink.domain.scheduling.factory.LstmInputFactory;
+import com.whiteday.aiecolink.domain.scheduling.factory.PpoInputFactory;
+import com.whiteday.aiecolink.domain.scheduling.model.request.LstmInput;
+import com.whiteday.aiecolink.domain.scheduling.model.request.PpoInput;
+import com.whiteday.aiecolink.domain.scheduling.model.response.SchedulingDashboardRes;
 import com.whiteday.aiecolink.domain.scheduling.model.entity.SchedulingHourly;
 import com.whiteday.aiecolink.domain.scheduling.model.entity.SchedulingPlan;
-import com.whiteday.aiecolink.domain.scheduling.model.request.PredictionReq;
+import com.whiteday.aiecolink.domain.scheduling.model.request.PredictionRequest;
 import com.whiteday.aiecolink.domain.scheduling.model.response.HourlyScheduleDto;
 import com.whiteday.aiecolink.domain.scheduling.model.response.SchedulingRes;
 import com.whiteday.aiecolink.domain.scheduling.repository.SchedulingHourlyRepository;
@@ -30,9 +34,10 @@ public class SchedulingService {
     final SchedulingPlanRepository schedulingPlanRepository;
     final SchedulingHourlyRepository schedulingHourlyRepository;
     final AiModelClient aiModelClient;
-
+    final LstmInputFactory lstmInputFactory;
+    final PpoInputFactory ppoInputFactory;
     // 수동 다음날 충/방전 스케줄링 요청 처리
-    public SchedulingRes predictSchedule(Long stationId, PredictionReq request) {
+    public SchedulingRes predictSchedule(Long stationId, PredictionRequest request) {
         Station station = stationRepository.findById(stationId)
                 .orElseThrow(() -> new CustomException(ErrorCode.STATION_NOT_EXIST));
 
@@ -103,15 +108,20 @@ public class SchedulingService {
 
         for (Station station : stations) {
             try {
-                // AI 서버에 예측 요청
+                // 🔹 1. LSTM/PPO 입력 생성
+                List<LstmInput> lstmInputs = lstmInputFactory.createLstmInput(station, today);
+                List<PpoInput> ppoInputs = ppoInputFactory.createPpoInput(station, today);
 
+                // 🔹 2. AI 서버에 예측 요청
                 List<SchedulePredictionItem> predictions = aiModelClient.requestPrediction(
-                        station.getStationId(), today
+                        station.getStationId(),
+                        today,
+                        lstmInputs,
+                        ppoInputs
                 );
 
-                // 예측 결과 저장
+                // 🔹 3. 결과 저장
                 savePredictionResult(station.getStationId(), today, predictions);
-
                 log.info("✅ 예측 성공: stationId={}, date={}", station.getStationId(), today);
 
             } catch (Exception e) {

@@ -19,7 +19,11 @@ public enum ErrorCode {
     AI_PREDICT_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, "AI 모델 예측 요청에 실패했습니다."),
     SCHEDULE_NOT_FOUND(HttpStatus.NOT_FOUND, "예측된 스케줄이 존재하지 않습니다."),
     CANNOT_DELETE_SELF(HttpStatus.FORBIDDEN, "자기 자신은 삭제할 수 없습니다."),
-    ADMIN_NOT_FOUND(HttpStatus.BAD_REQUEST, "삭제하려는 관리자를 찾을 수 없습니다.");
+    ADMIN_NOT_FOUND(HttpStatus.BAD_REQUEST, "삭제하려는 관리자를 찾을 수 없습니다."),
+    SOLARFORECAST_PLAN_NOT_EXIST(HttpStatus.NOT_FOUND, "해당 지역의 태양광 일정이 존재하지 않습니다."),
+    SOLARFORECAST_HOURLY_NOT_EXIST(HttpStatus.NOT_FOUND," 해당 지역의 태양광 시간대 데이터기 존재하지 않습니다."),
+    TOU_PLAN_NOT_EXIST(HttpStatus.NOT_FOUND, "해당 날짜의 요금제가 존재하지 않습니다."),
+    TOU_HOURLY_NOT_EXIST(HttpStatus.NOT_FOUND, "해당 날짜의 요금제 시간대 데이터가 존재하지 않습니다.");
 
     private final HttpStatus status;
     private final String message;

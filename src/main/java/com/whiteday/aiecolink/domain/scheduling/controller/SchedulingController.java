@@ -1,12 +1,11 @@
 package com.whiteday.aiecolink.domain.scheduling.controller;
-import com.whiteday.aiecolink.domain.scheduling.model.request.PredictionReq;
+import com.whiteday.aiecolink.domain.scheduling.model.request.PredictionRequest;
+import com.whiteday.aiecolink.domain.scheduling.model.response.SchedulingDashboardRes;
 import com.whiteday.aiecolink.domain.scheduling.model.response.SchedulingRes;
 import com.whiteday.aiecolink.domain.scheduling.service.SchedulingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDate;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,7 +17,7 @@ public class SchedulingController {
     @PostMapping("/{stationId}/predict")
     public ResponseEntity<SchedulingRes> predictSchedule(
             @PathVariable Long stationId,
-            @RequestBody PredictionReq request) {
+            @RequestBody PredictionRequest request) {
         return ResponseEntity.ok(schedulingService.predictSchedule(stationId, request));
     }
 

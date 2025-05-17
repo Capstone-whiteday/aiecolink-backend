@@ -10,5 +10,5 @@ import java.util.Optional;
 @Repository
 public interface SchedulingPlanRepository extends JpaRepository<SchedulingPlan, Long> {
 
-    Optional<Object> findTopByStationOrderByForecastDateDesc(Station station);
+    Optional<SchedulingPlan> findTopByStationOrderByForecastDateDesc(Station station);
 }

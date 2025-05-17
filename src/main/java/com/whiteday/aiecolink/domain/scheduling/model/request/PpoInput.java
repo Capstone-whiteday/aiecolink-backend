@@ -5,13 +5,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PredictionReq {
-    private List<LstmInput> lstm_input;
-    private List<PpoInput> ppo_input;
+public class PpoInput {
+    private int hour;
+    private float price_actual;
+    private float price_day_ahead;
+    private float total_load_actual;
+    private float total_load_forecast;
+
 }

@@ -1,6 +1,9 @@
 package com.whiteday.aiecolink.global.client;
 
+import com.whiteday.aiecolink.domain.scheduling.model.request.LstmInput;
+import com.whiteday.aiecolink.domain.scheduling.model.request.PpoInput;
 import com.whiteday.aiecolink.domain.scheduling.model.request.PredictionReq;
+import com.whiteday.aiecolink.domain.scheduling.model.request.PredictionRequest;
 import com.whiteday.aiecolink.global.error.CustomException;
 import com.whiteday.aiecolink.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -23,8 +26,12 @@ public class AiModelClient {
     @Value("${ai.endpoint.predict}")
     private String predictUrl;
 
-    public List<SchedulePredictionItem> requestPrediction(Long stationId, LocalDate date) {
-        PredictionReq request = new PredictionReq(date);
+    public List<SchedulePredictionItem> requestPrediction(Long stationId, LocalDate date, List<LstmInput> lstmInputs, List<PpoInput> ppoInputs) {
+        PredictionReq request = PredictionReq.builder()
+                .lstm_input(lstmInputs)
+                .ppo_input(ppoInputs)
+                .build();
+
         try {
             ResponseEntity<SchedulePredictionItem[]> response = restTemplate.postForEntity(
                     predictUrl, request, SchedulePredictionItem[].class
