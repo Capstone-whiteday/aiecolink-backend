@@ -6,6 +6,7 @@ import com.whiteday.aiecolink.domain.member.security.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -15,6 +16,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -28,37 +34,47 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable())  // CSRF 비활성화 (API 테스트 시 유용)
-                .formLogin(form -> form.disable())  // Form 로그인 비활성화
-                .httpBasic(basic -> basic.disable())  // HTTP Basic 인증 비활성화
+                .cors()
+                .and()
+                .csrf().disable()
+                .formLogin().disable()
+                .httpBasic().disable()
                 .authorizeHttpRequests(auth -> auth
-                        // ✅ Swagger 경로 허용
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // ✅ 이 줄 추가
                         .requestMatchers(
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
                                 "/v3/api-docs/**",
                                 "/swagger-resources/**",
-                                "/webjars/**"
-                        ).permitAll()
-
-                        // ✅ 인증/관리자/테스트 관련 경로 허용
-                        .requestMatchers(
-                                "/auth/**",
+                                "/webjars/**",
+                                "/auth/**", // ✅ 여기를 위로 올려서 명확하게 허용
                                 "/admin/signup",
                                 "/admin/login",
-                                "/api/test/**"
+                                "/api/test/**",
+                                "/user-auth/**"
                         ).permitAll()
-
-                        // ✅ 그 외는 인증 필요
                         .anyRequest().authenticated()
                 )
-                // ✅ JWT 인증 필터 등록
                 .addFilterBefore(
                         new JwtAuthenticationFilter(jwtTokenProvider, customUserDetailsService),
                         UsernamePasswordAuthenticationFilter.class
                 );
 
         return http.build();
+    }
+
+    // ✅ CORS 정책 정의
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowedOriginPatterns(List.of("http://localhost:*"));
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
+        config.setAllowedHeaders(List.of("*"));
+        config.setAllowCredentials(true); // 쿠키 등 인증정보 허용
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        return source;
     }
 
     @Bean
