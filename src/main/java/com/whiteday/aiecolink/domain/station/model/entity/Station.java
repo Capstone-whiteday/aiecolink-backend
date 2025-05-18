@@ -1,5 +1,6 @@
 package com.whiteday.aiecolink.domain.station.model.entity;
 
+import com.whiteday.aiecolink.domain.scheduling.model.entity.SolarforecastPlan;
 import com.whiteday.aiecolink.domain.station.model.Status;
 import com.whiteday.aiecolink.domain.member.model.entity.User;
 import jakarta.persistence.*;
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity

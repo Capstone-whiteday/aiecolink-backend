@@ -1,14 +1,17 @@
 package com.whiteday.aiecolink.domain.scheduling.model.request;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+import java.util.List;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class PredictionReq {
-    private LocalDate date;    // 요청 날짜 (예: "2025-10-01")
+    private List<LstmInput> lstm_input;
+    private List<PpoInput> ppo_input;
 }

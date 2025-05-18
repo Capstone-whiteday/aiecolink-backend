@@ -1,15 +1,13 @@
 package com.whiteday.aiecolink.domain.scheduling.model.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Getter
@@ -21,5 +19,15 @@ public class TouPlan {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long touId;
 
+    @Column(nullable = false)
     private LocalDate forecastDate;
+
+    @OneToMany(mappedBy = "touPlan", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TouHourly> hourlyList;
+
+    public void addHourly(TouHourly hourly) {
+        this.hourlyList.add(hourly);
+        hourly.setTouPlan(this);
+    }
+
 }

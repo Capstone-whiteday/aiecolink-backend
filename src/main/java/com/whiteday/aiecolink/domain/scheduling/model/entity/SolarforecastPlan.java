@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Builder
@@ -25,4 +26,12 @@ public class SolarforecastPlan {
 
     @Column(nullable = false)
     private LocalDate forecastDate;
+
+    @OneToMany(mappedBy = "solarforecastPlan", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<SolarforecastHourly> hourlyList;
+
+    public void addHourly(SolarforecastHourly hourly) {
+        this.hourlyList.add(hourly);
+        hourly.setSolarforecastPlan(this);
+    }
 }

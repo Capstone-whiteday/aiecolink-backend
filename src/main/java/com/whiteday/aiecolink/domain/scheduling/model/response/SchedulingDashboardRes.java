@@ -1,6 +1,5 @@
-package com.whiteday.aiecolink.domain.scheduling.controller;
+package com.whiteday.aiecolink.domain.scheduling.model.response;
 
-import com.whiteday.aiecolink.domain.scheduling.model.response.HourlyScheduleDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

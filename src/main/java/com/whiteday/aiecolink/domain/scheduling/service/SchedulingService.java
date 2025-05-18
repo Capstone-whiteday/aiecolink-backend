@@ -1,10 +1,14 @@
 package com.whiteday.aiecolink.domain.scheduling.service;
 
 
-import com.whiteday.aiecolink.domain.scheduling.controller.SchedulingDashboardRes;
+import com.whiteday.aiecolink.domain.scheduling.factory.LstmInputFactory;
+import com.whiteday.aiecolink.domain.scheduling.factory.PpoInputFactory;
+import com.whiteday.aiecolink.domain.scheduling.model.request.LstmInput;
+import com.whiteday.aiecolink.domain.scheduling.model.request.PpoInput;
+import com.whiteday.aiecolink.domain.scheduling.model.response.SchedulingDashboardRes;
 import com.whiteday.aiecolink.domain.scheduling.model.entity.SchedulingHourly;
 import com.whiteday.aiecolink.domain.scheduling.model.entity.SchedulingPlan;
-import com.whiteday.aiecolink.domain.scheduling.model.request.PredictionReq;
+import com.whiteday.aiecolink.domain.scheduling.model.request.PredictionRequest;
 import com.whiteday.aiecolink.domain.scheduling.model.response.HourlyScheduleDto;
 import com.whiteday.aiecolink.domain.scheduling.model.response.SchedulingRes;
 import com.whiteday.aiecolink.domain.scheduling.repository.SchedulingHourlyRepository;
@@ -30,9 +34,11 @@ public class SchedulingService {
     final SchedulingPlanRepository schedulingPlanRepository;
     final SchedulingHourlyRepository schedulingHourlyRepository;
     final AiModelClient aiModelClient;
+    final LstmInputFactory lstmInputFactory;
+    final PpoInputFactory ppoInputFactory;
 
     // 수동 다음날 충/방전 스케줄링 요청 처리
-    public SchedulingRes predictSchedule(Long stationId, PredictionReq request) {
+    public SchedulingRes predictSchedule(Long stationId, PredictionRequest request) {
         Station station = stationRepository.findById(stationId)
                 .orElseThrow(() -> new CustomException(ErrorCode.STATION_NOT_EXIST));
 
@@ -95,6 +101,7 @@ public class SchedulingService {
                 .totalSolar(totalSolar)
                 .build();
     }
+
     // 자동 충전소 전체 예측
     @Transactional
     public void autoPredictAllStations() {
@@ -103,20 +110,36 @@ public class SchedulingService {
 
         for (Station station : stations) {
             try {
-                // AI 서버에 예측 요청
+                log.info("🔄 시작: stationId={}, date={}", station.getStationId(), today);
 
+                // 🔹 1. LSTM/PPO 입력 생성
+                log.info("⏳ LSTM 입력 생성 시작");
+                List<LstmInput> lstmInputs = lstmInputFactory.createLstmInput(station, today);
+                log.info("✅ LSTM 입력 생성 완료");
+
+                log.info("⏳ PPO 입력 생성 시작");
+                List<PpoInput> ppoInputs = ppoInputFactory.createPpoInput(today);
+                log.info("✅ PPO 입력 생성 완료");
+
+                // 🔹 2. AI 서버에 예측 요청
+                log.info("📡 AI 예측 요청 시작");
                 List<SchedulePredictionItem> predictions = aiModelClient.requestPrediction(
-                        station.getStationId(), today
+                        lstmInputs,
+                        ppoInputs
                 );
+                log.info("✅ AI 예측 응답 완료: 예측 수 = {}", predictions.size());
 
-                // 예측 결과 저장
+                // 🔹 3. 결과 저장
+                log.info("💾 예측 결과 저장 시작");
                 savePredictionResult(station.getStationId(), today, predictions);
+                log.info("✅ 예측 결과 저장 완료");
 
-                log.info("✅ 예측 성공: stationId={}, date={}", station.getStationId(), today);
+                log.info("🎉 전체 성공: stationId={}, date={}", station.getStationId(), today);
 
             } catch (Exception e) {
-                log.error("❌ 예측 실패: stationId={}, error={}", station.getStationId(), e.getMessage());
+                log.error("❌ 예측 실패: stationId={}, date={}, error={}", station.getStationId(), today, e.getMessage(), e);
             }
         }
+
     }
 }

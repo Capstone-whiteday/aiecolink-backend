@@ -17,6 +17,6 @@ public class Region {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long regionId;
 
-    @Column(nullable = false, length = 10)
+    @Column(nullable = false, length = 30)
     private String regionName;
 }
