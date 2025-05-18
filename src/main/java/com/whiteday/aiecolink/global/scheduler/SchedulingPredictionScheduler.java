@@ -12,8 +12,8 @@ import org.springframework.stereotype.Component;
 public class SchedulingPredictionScheduler {
     private final SchedulingService schedulingService;
 
-    // TODO : 발표 시간에 맞춘 자동 예측 (예: 오후 1시 40분)
-    @Scheduled(cron = "0 36 18 * * *", zone = "Asia/Seoul")  // ← 발표 시간에 맞게 수정
+    // TODO : 해당 시간에 맞춘 자동 예측 (초/분/시/일/월/요일)
+    @Scheduled(cron = "0 16 20 * * *", zone = "Asia/Seoul")
     public void scheduledPrediction() {
         log.info("⏰ 발표용 자동 예측 스케줄 실행 시작");
         schedulingService.autoPredictAllStations();

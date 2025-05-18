@@ -1,5 +1,6 @@
 package com.whiteday.aiecolink.domain.scheduling.model.request;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,9 +12,17 @@ import lombok.NoArgsConstructor;
 @Builder
 public class PpoInput {
     private int hour;
-    private float price_actual;
-    private float price_day_ahead;
-    private float total_load_actual;
-    private float total_load_forecast;
+
+    @JsonProperty("price actual")
+    private float priceActual;
+
+    @JsonProperty("price day ahead")
+    private float priceDayAhead;
+
+    @JsonProperty("total load forecast")
+    private float totalLoadForecast;
+
+    @JsonProperty("total load actual")
+    private float totalLoadActual;
 
 }

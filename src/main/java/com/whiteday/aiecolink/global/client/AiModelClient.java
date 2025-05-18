@@ -1,9 +1,10 @@
 package com.whiteday.aiecolink.global.client;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.whiteday.aiecolink.domain.scheduling.model.request.LstmInput;
 import com.whiteday.aiecolink.domain.scheduling.model.request.PpoInput;
 import com.whiteday.aiecolink.domain.scheduling.model.request.PredictionReq;
-import com.whiteday.aiecolink.domain.scheduling.model.request.PredictionRequest;
 import com.whiteday.aiecolink.global.error.CustomException;
 import com.whiteday.aiecolink.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -30,11 +31,15 @@ public class AiModelClient {
     @Value("${ai.endpoint.predict}")
     private String predictUrl;
 
-    public List<SchedulePredictionItem> requestPrediction(List<LstmInput> lstmInputs, List<PpoInput> ppoInputs) {
+    public List<SchedulePredictionItem> requestPrediction(List<LstmInput> lstmInputs, List<PpoInput> ppoInputs) throws JsonProcessingException {
         PredictionReq request = PredictionReq.builder()
                 .lstm_input(lstmInputs)
                 .ppo_input(ppoInputs)
                 .build();
+
+        ObjectMapper mapper = new ObjectMapper();
+        log.debug("🔎 AI 요청 JSON:\n{}", mapper.writeValueAsString(request));
+
 
         try {
             // Example: Sending HTTP request to AI model

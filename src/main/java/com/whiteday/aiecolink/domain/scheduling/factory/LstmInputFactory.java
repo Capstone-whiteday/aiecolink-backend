@@ -47,8 +47,8 @@ public class LstmInputFactory {
             inputs.add(LstmInput.builder()
                     .hour(hour)
                     .region(Math.toIntExact(regionId))
-                    .solarBattery_kW(hourly.getSolarBattery())
-                    .instantaneous_generation_kW(hourly.getInstantGeneration())
+                    .solarBatteryKW(hourly.getSolarBattery())
+                    .instantaneousGenerationKW(hourly.getInstantGeneration())
                     .build());
         }
         return inputs;

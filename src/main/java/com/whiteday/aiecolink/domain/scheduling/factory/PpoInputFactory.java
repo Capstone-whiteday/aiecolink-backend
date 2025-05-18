@@ -44,10 +44,10 @@ public class PpoInputFactory {
             }
             inputs.add(PpoInput.builder()
                     .hour(hour)
-                    .price_actual(hourly.getPriceActual())
-                    .price_day_ahead(hourly.getPriceDayAhead())
-                    .total_load_actual(hourly.getTotalLoadActual())
-                    .total_load_forecast(hourly.getTotalLoadForecast())
+                    .priceActual(hourly.getPriceActual())
+                    .priceDayAhead(hourly.getPriceDayAhead())
+                    .totalLoadActual(hourly.getTotalLoadActual())
+                    .totalLoadForecast(hourly.getTotalLoadForecast())
                     .build());
         }
         return inputs;
