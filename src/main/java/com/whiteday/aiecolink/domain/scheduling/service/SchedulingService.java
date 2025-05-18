@@ -1,6 +1,7 @@
 package com.whiteday.aiecolink.domain.scheduling.service;
 
 
+import com.whiteday.aiecolink.domain.battery.repository.BatteryRepository;
 import com.whiteday.aiecolink.domain.scheduling.factory.LstmInputFactory;
 import com.whiteday.aiecolink.domain.scheduling.factory.PpoInputFactory;
 import com.whiteday.aiecolink.domain.scheduling.model.request.LstmInput;
@@ -33,6 +34,8 @@ public class SchedulingService {
     final StationRepository stationRepository;
     final SchedulingPlanRepository schedulingPlanRepository;
     final SchedulingHourlyRepository schedulingHourlyRepository;
+    final BatteryRepository batteryRepository;
+    final BatteryService batteryService;
     final AiModelClient aiModelClient;
     final LstmInputFactory lstmInputFactory;
     final PpoInputFactory ppoInputFactory;
@@ -75,7 +78,7 @@ public class SchedulingService {
         Station station = stationRepository.findById(stationId)
                 .orElseThrow(() -> new CustomException(ErrorCode.STATION_NOT_EXIST));
 
-        SchedulingPlan plan = (SchedulingPlan) schedulingPlanRepository.findTopByStationOrderByForecastDateDesc(station)
+        SchedulingPlan plan = schedulingPlanRepository.findTopByStationOrderByForecastDateDesc(station)
                 .orElseThrow(() -> new CustomException(ErrorCode.SCHEDULE_NOT_FOUND));
 
         List<SchedulingHourly> hourlies = schedulingHourlyRepository.findBySchedulingPlan(plan);
@@ -121,9 +124,17 @@ public class SchedulingService {
                 List<PpoInput> ppoInputs = ppoInputFactory.createPpoInput(today);
                 log.info("✅ PPO 입력 생성 완료");
 
+                // 1-1. batteryCapacity 설정
+                log.info("🔋 배터리 용량 조회 시작");
+                float batteryCapacity = batteryRepository.findByStationAndDate(station, today)
+                        .orElseThrow(() -> new CustomException(ErrorCode.BATTERY_NOT_EXIST))
+                        .getBatteryCapacity();
+                log.info("✅ 배터리 용량 조회 완료: batteryCapacity={}", batteryCapacity);
+
                 // 🔹 2. AI 서버에 예측 요청
                 log.info("📡 AI 예측 요청 시작");
                 List<SchedulePredictionItem> predictions = aiModelClient.requestPrediction(
+                        batteryCapacity,
                         lstmInputs,
                         ppoInputs
                 );

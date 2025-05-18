@@ -23,7 +23,10 @@ public enum ErrorCode {
     SOLARFORECAST_PLAN_NOT_EXIST(HttpStatus.NOT_FOUND, "해당 지역의 태양광 일정이 존재하지 않습니다."),
     SOLARFORECAST_HOURLY_NOT_EXIST(HttpStatus.NOT_FOUND," 해당 지역의 태양광 시간대 데이터기 존재하지 않습니다."),
     TOU_PLAN_NOT_EXIST(HttpStatus.NOT_FOUND, "해당 날짜의 요금제가 존재하지 않습니다."),
-    TOU_HOURLY_NOT_EXIST(HttpStatus.NOT_FOUND, "해당 날짜의 요금제 시간대 데이터가 존재하지 않습니다.");
+    TOU_HOURLY_NOT_EXIST(HttpStatus.NOT_FOUND, "해당 날짜의 요금제 시간대 데이터가 존재하지 않습니다."),
+    BATTERY_REGISTER_FAIL(HttpStatus.BAD_REQUEST, "베터리 등록에 실패했습니다."),
+    BATTERY_NOT_EXIST(HttpStatus.NOT_FOUND, "베터리가 존재하지 않습니다."),
+    BATTERY_UPDATE_FAIL(HttpStatus.BAD_REQUEST, "베터리 수정에 실패했습니다."),;
 
     private final HttpStatus status;
     private final String message;
