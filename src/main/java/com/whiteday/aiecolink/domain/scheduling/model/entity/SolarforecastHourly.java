@@ -1,10 +1,7 @@
 package com.whiteday.aiecolink.domain.scheduling.model.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Builder
@@ -16,15 +13,16 @@ public class SolarforecastHourly {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "solarforecast_id")
     private SolarforecastPlan solarforecastPlan;
 
-    @Column
+    @Column(nullable = false)
     private int hour;
-    @Column
+    @Column(nullable = false)
     private float instantGeneration;
-    @Column
+    @Column(nullable = false)
     private float solarBattery;
 
     public void setSolarforecastPlan(SolarforecastPlan solarforecastPlan) {

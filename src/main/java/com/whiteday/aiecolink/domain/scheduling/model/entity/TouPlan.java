@@ -19,6 +19,7 @@ public class TouPlan {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long touId;
 
+    @Column(nullable = false)
     private LocalDate forecastDate;
 
     @OneToMany(mappedBy = "touPlan", cascade = CascadeType.ALL, orphanRemoval = true)

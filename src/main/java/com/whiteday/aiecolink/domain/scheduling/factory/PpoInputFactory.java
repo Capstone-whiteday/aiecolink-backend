@@ -4,6 +4,7 @@ import com.whiteday.aiecolink.domain.scheduling.model.entity.SolarforecastHourly
 import com.whiteday.aiecolink.domain.scheduling.model.entity.TouHourly;
 import com.whiteday.aiecolink.domain.scheduling.model.entity.TouPlan;
 import com.whiteday.aiecolink.domain.scheduling.model.request.PpoInput;
+import com.whiteday.aiecolink.domain.scheduling.repository.TouHourlyRepository;
 import com.whiteday.aiecolink.domain.scheduling.repository.TouPlanReposiotry;
 import com.whiteday.aiecolink.domain.station.model.entity.Station;
 import com.whiteday.aiecolink.global.error.CustomException;
@@ -21,12 +22,12 @@ import java.util.stream.Collectors;
 @Component
 public class PpoInputFactory {
     final TouPlanReposiotry touPlanReposiotry;
-    final TouPlanReposiotry touHourlyRepository;
-    public List<PpoInput> createPpoInput(Station station, LocalDate date) {
+    final TouHourlyRepository touHourlyRepository;
+    public List<PpoInput> createPpoInput(LocalDate date) {
         TouPlan touPlan = touPlanReposiotry
                 .findByForecastDate(date)
                 .orElseThrow(() -> new CustomException(ErrorCode.TOU_PLAN_NOT_EXIST));
-        List<TouHourly> hourlyList = touHourlyRepository.findByTouId(touPlan.getTouId());
+        List<TouHourly> hourlyList = touHourlyRepository.findByTouPlan_TouId(touPlan.getTouId());
         if (hourlyList.isEmpty()) {
             throw new CustomException(ErrorCode.TOU_HOURLY_NOT_EXIST);
         }

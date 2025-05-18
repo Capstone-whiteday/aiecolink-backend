@@ -14,5 +14,4 @@ public interface TouPlanReposiotry extends JpaRepository<TouPlan, Long> {
 
     Optional<TouPlan> findByForecastDate(LocalDate date);
 
-    List<TouHourly> findByTouId(Long touId);
 }
