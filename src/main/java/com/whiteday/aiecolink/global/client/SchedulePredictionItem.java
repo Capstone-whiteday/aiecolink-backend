@@ -9,5 +9,5 @@ public class SchedulePredictionItem { // AI 응답 데이터 구조 (AI -> 백�
     private float predictSolar;
     private float powerKw;
     private float powerPayment;
-    private Action action; // CHARGE, DISCHARGE, IDLE
+    private String action; // CHARGE, DISCHARGE, IDLE
 }
