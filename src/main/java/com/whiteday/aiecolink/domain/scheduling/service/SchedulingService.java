@@ -109,11 +109,26 @@ public class SchedulingService {
     @Transactional
     public void autoPredictAllStations() {
         LocalDate today = LocalDate.now();  // 오늘 날짜 기준으로 예측
-        List<Station> stations = stationRepository.findAll();  // 전체 충전소 조회
 
+        List<Station> stations = stationRepository.findAll().stream()
+                .filter(station -> !schedulingPlanRepository.existsByStationAndForecastDate(station, today))
+                .toList();
+
+        if (stations.isEmpty()) {
+            log.info("❌ 모든 충전소에 대해 오늘 날짜의 예측이 이미 존재합니다.");
+            return;
+        }
+        log.info("🔄 예측이 없는 충전소 수: {}", stations.size());
         for (Station station : stations) {
             try {
                 log.info("🔄 시작: stationId={}, date={}", station.getStationId(), today);
+
+                // 🔹 0. 배터리 상태 확인
+                if (!batteryService.isBatteryAvailable(station, today)) {
+                    log.error("❌ 배터리 상태 불량: stationId={}, date={}", station.getStationId(), today);
+                    continue;
+                }
+                log.info("✅ 배터리 상태 확인 완료: stationId={}, date={}", station.getStationId(), today);
 
                 // 🔹 1. LSTM/PPO 입력 생성
                 log.info("⏳ LSTM 입력 생성 시작");
