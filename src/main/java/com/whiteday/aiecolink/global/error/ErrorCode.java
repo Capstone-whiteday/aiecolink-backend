@@ -26,7 +26,8 @@ public enum ErrorCode {
     TOU_HOURLY_NOT_EXIST(HttpStatus.NOT_FOUND, "해당 날짜의 요금제 시간대 데이터가 존재하지 않습니다."),
     BATTERY_REGISTER_FAIL(HttpStatus.BAD_REQUEST, "베터리 등록에 실패했습니다."),
     BATTERY_NOT_EXIST(HttpStatus.NOT_FOUND, "베터리가 존재하지 않습니다."),
-    BATTERY_UPDATE_FAIL(HttpStatus.BAD_REQUEST, "베터리 수정에 실패했습니다."),;
+    BATTERY_UPDATE_FAIL(HttpStatus.BAD_REQUEST, "베터리 수정에 실패했습니다."),
+    SCHEDULE_ALREADY_EXIST(HttpStatus.ALREADY_REPORTED, "이미 예측된 스케줄이 존재합니다."),;
 
     private final HttpStatus status;
     private final String message;
