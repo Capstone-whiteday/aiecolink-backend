@@ -25,7 +25,4 @@ public class SolarforecastHourly {
     @Column(nullable = false)
     private float solarBattery;
 
-    public void setSolarforecastPlan(SolarforecastPlan solarforecastPlan) {
-        this.solarforecastPlan = solarforecastPlan;
-    }
 }
