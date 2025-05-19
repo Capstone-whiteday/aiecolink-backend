@@ -4,6 +4,7 @@ package com.whiteday.aiecolink.domain.scheduling.service;
 import com.whiteday.aiecolink.domain.battery.repository.BatteryRepository;
 import com.whiteday.aiecolink.domain.scheduling.factory.LstmInputFactory;
 import com.whiteday.aiecolink.domain.scheduling.factory.PpoInputFactory;
+import com.whiteday.aiecolink.domain.scheduling.model.Action;
 import com.whiteday.aiecolink.domain.scheduling.model.request.LstmInput;
 import com.whiteday.aiecolink.domain.scheduling.model.request.PpoInput;
 import com.whiteday.aiecolink.domain.scheduling.model.response.SchedulingDashboardRes;
@@ -69,7 +70,7 @@ public class SchedulingService {
                     .predictSolar(item.getPredictSolar())
                     .powerKw(item.getPowerKw())
                     .powerPayment(item.getPowerPayment())
-                    .action(item.getAction())
+                    .action(Action.valueOf(item.getAction()))
                     .build());
         }
     }
