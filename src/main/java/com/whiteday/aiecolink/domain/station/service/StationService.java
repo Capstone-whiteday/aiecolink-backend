@@ -4,7 +4,6 @@ import com.whiteday.aiecolink.domain.scheduling.service.BatteryService;
 import com.whiteday.aiecolink.domain.station.model.StationRegisterRes;
 import com.whiteday.aiecolink.domain.station.model.StationRes;
 import com.whiteday.aiecolink.domain.station.model.StationSummaryRes;
-import com.whiteday.aiecolink.domain.station.model.entity.Battery;
 import com.whiteday.aiecolink.domain.station.model.entity.Region;
 import com.whiteday.aiecolink.domain.station.model.entity.Station;
 import com.whiteday.aiecolink.domain.station.model.request.StationRegisterReq;
