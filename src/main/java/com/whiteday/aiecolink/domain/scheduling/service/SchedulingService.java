@@ -70,7 +70,7 @@ public class SchedulingService {
                     .predictSolar(item.getPredictSolar())
                     .powerKw(item.getPowerKw())
                     .powerPayment(item.getPowerPayment())
-                    .action(Action.valueOf(item.getAction()))
+                    .action(item.getAction())
                     .build());
         }
     }

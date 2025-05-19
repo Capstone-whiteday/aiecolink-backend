@@ -41,7 +41,7 @@ public class AiModelClient {
 
 
         try {
-            // Example: Sending HTTP request to AI model
+
             ResponseEntity<SchedulePredictionRes> response = restTemplate.postForEntity(
                     predictUrl, request, SchedulePredictionRes.class
             );
