@@ -73,4 +73,11 @@ public class BatteryService {
         }
         return new BatteryRegisterRes().toDto(battery);
     }
+
+    public boolean isBatteryAvailable(Station station, LocalDate today) {
+        // 배터리 상태 확인
+        Battery battery = batteryRepository.findByStationAndDate(station, today)
+                .orElseThrow(() -> new CustomException(ErrorCode.BATTERY_NOT_EXIST));
+        return battery.getBatteryCapacity() > 0;
+    }
 }
