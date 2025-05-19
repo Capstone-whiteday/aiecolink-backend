@@ -18,8 +18,6 @@ import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
-import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.List;
 @Slf4j
 @Component
@@ -31,8 +29,9 @@ public class AiModelClient {
     @Value("${ai.endpoint.predict}")
     private String predictUrl;
 
-    public List<SchedulePredictionItem> requestPrediction(List<LstmInput> lstmInputs, List<PpoInput> ppoInputs) throws JsonProcessingException {
+    public List<SchedulePredictionItem> requestPrediction(float batteryCapacity,List<LstmInput> lstmInputs, List<PpoInput> ppoInputs) throws JsonProcessingException {
         PredictionReq request = PredictionReq.builder()
+                .batteryCapacity(batteryCapacity)
                 .lstm_input(lstmInputs)
                 .ppo_input(ppoInputs)
                 .build();
@@ -42,7 +41,7 @@ public class AiModelClient {
 
 
         try {
-            // Example: Sending HTTP request to AI model
+
             ResponseEntity<SchedulePredictionRes> response = restTemplate.postForEntity(
                     predictUrl, request, SchedulePredictionRes.class
             );

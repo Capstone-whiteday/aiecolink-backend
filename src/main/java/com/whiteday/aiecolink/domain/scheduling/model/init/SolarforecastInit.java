@@ -9,11 +9,14 @@ import com.whiteday.aiecolink.global.error.CustomException;
 import com.whiteday.aiecolink.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Random;
 
+@Order(2)
 @Component
 @RequiredArgsConstructor
 public class SolarforecastInit implements CommandLineRunner {
@@ -34,11 +37,15 @@ public class SolarforecastInit implements CommandLineRunner {
                 .hourlyList(new ArrayList<>())  // 초기화
                 .build();
 
+        Random random = new Random();
+
         for(int hour = 0; hour < 24; hour++) {
+            float generation = 0.2f + random.nextFloat() * (0.35f - 0.2f); // 0.2 ~ 0.35
+            float battery = 1.0f + random.nextFloat() * (1.4f - 1.0f); // 1.0 ~ 1.4
             SolarforecastHourly hourly = SolarforecastHourly.builder()
                     .hour(hour)
-                    .instantGeneration(0.0F)
-                    .solarBattery(0.0F)
+                    .instantGeneration(generation)
+                    .solarBattery(battery)
                     .build();
             solarforecastPlan.addHourly(hourly); // 양방향 연관관계 자동 주입
         }

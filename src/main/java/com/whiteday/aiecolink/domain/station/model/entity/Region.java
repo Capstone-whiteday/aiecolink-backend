@@ -14,9 +14,9 @@ import lombok.NoArgsConstructor;
 @Table(name = "regions")
 public class Region {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long regionId;
 
     @Column(nullable = false, length = 30)
     private String regionName;
+
 }

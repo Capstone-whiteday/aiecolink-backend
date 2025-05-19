@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -26,7 +27,12 @@ public class Battery {
     @Column(nullable = false)
     private float batteryCapacity; // 배터리 용량 (kWh)
 
-    @Column(nullable = false, columnDefinition = "timestamp")
+    @Column(nullable = false)
     @CreationTimestamp
-    private LocalDateTime date;
+    private LocalDate date;
+
+    public void update(float batteryCapacity) {
+        this.batteryCapacity = batteryCapacity;
+        this.date = LocalDate.now();
+    }
 }

@@ -30,5 +30,6 @@ public class SchedulingHourly {
     @Column
     private float powerPayment;
     @Column
+    @Enumerated(value = EnumType.STRING)
     private Action action;
 }

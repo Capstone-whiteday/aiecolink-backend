@@ -1,8 +1,10 @@
 package com.whiteday.aiecolink.domain.scheduling.service;
 
 
+import com.whiteday.aiecolink.domain.battery.repository.BatteryRepository;
 import com.whiteday.aiecolink.domain.scheduling.factory.LstmInputFactory;
 import com.whiteday.aiecolink.domain.scheduling.factory.PpoInputFactory;
+import com.whiteday.aiecolink.domain.scheduling.model.Action;
 import com.whiteday.aiecolink.domain.scheduling.model.request.LstmInput;
 import com.whiteday.aiecolink.domain.scheduling.model.request.PpoInput;
 import com.whiteday.aiecolink.domain.scheduling.model.response.SchedulingDashboardRes;
@@ -33,6 +35,8 @@ public class SchedulingService {
     final StationRepository stationRepository;
     final SchedulingPlanRepository schedulingPlanRepository;
     final SchedulingHourlyRepository schedulingHourlyRepository;
+    final BatteryRepository batteryRepository;
+    final BatteryService batteryService;
     final AiModelClient aiModelClient;
     final LstmInputFactory lstmInputFactory;
     final PpoInputFactory ppoInputFactory;
@@ -75,7 +79,7 @@ public class SchedulingService {
         Station station = stationRepository.findById(stationId)
                 .orElseThrow(() -> new CustomException(ErrorCode.STATION_NOT_EXIST));
 
-        SchedulingPlan plan = (SchedulingPlan) schedulingPlanRepository.findTopByStationOrderByForecastDateDesc(station)
+        SchedulingPlan plan = schedulingPlanRepository.findTopByStationOrderByForecastDateDesc(station)
                 .orElseThrow(() -> new CustomException(ErrorCode.SCHEDULE_NOT_FOUND));
 
         List<SchedulingHourly> hourlies = schedulingHourlyRepository.findBySchedulingPlan(plan);
@@ -106,11 +110,26 @@ public class SchedulingService {
     @Transactional
     public void autoPredictAllStations() {
         LocalDate today = LocalDate.now();  // 오늘 날짜 기준으로 예측
-        List<Station> stations = stationRepository.findAll();  // 전체 충전소 조회
 
+        List<Station> stations = stationRepository.findAll().stream()
+                .filter(station -> !schedulingPlanRepository.existsByStationAndForecastDate(station, today))
+                .toList();
+
+        if (stations.isEmpty()) {
+            log.info("❌ 모든 충전소에 대해 오늘 날짜의 예측이 이미 존재합니다.");
+            return;
+        }
+        log.info("🔄 예측이 없는 충전소 수: {}", stations.size());
         for (Station station : stations) {
             try {
                 log.info("🔄 시작: stationId={}, date={}", station.getStationId(), today);
+
+                // 🔹 0. 배터리 상태 확인
+                if (!batteryService.isBatteryAvailable(station, today)) {
+                    log.error("❌ 배터리 상태 불량: stationId={}, date={}", station.getStationId(), today);
+                    continue;
+                }
+                log.info("✅ 배터리 상태 확인 완료: stationId={}, date={}", station.getStationId(), today);
 
                 // 🔹 1. LSTM/PPO 입력 생성
                 log.info("⏳ LSTM 입력 생성 시작");
@@ -121,9 +140,17 @@ public class SchedulingService {
                 List<PpoInput> ppoInputs = ppoInputFactory.createPpoInput(today);
                 log.info("✅ PPO 입력 생성 완료");
 
+                // 1-1. batteryCapacity 설정
+                log.info("🔋 배터리 용량 조회 시작");
+                float batteryCapacity = batteryRepository.findByStationAndDate(station, today)
+                        .orElseThrow(() -> new CustomException(ErrorCode.BATTERY_NOT_EXIST))
+                        .getBatteryCapacity();
+                log.info("✅ 배터리 용량 조회 완료: batteryCapacity={}", batteryCapacity);
+
                 // 🔹 2. AI 서버에 예측 요청
                 log.info("📡 AI 예측 요청 시작");
                 List<SchedulePredictionItem> predictions = aiModelClient.requestPrediction(
+                        batteryCapacity,
                         lstmInputs,
                         ppoInputs
                 );
