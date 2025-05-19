@@ -1,8 +1,10 @@
 package com.whiteday.aiecolink.domain.station.service;
 
+import com.whiteday.aiecolink.domain.scheduling.service.BatteryService;
 import com.whiteday.aiecolink.domain.station.model.StationRegisterRes;
 import com.whiteday.aiecolink.domain.station.model.StationRes;
 import com.whiteday.aiecolink.domain.station.model.StationSummaryRes;
+import com.whiteday.aiecolink.domain.station.model.entity.Battery;
 import com.whiteday.aiecolink.domain.station.model.entity.Region;
 import com.whiteday.aiecolink.domain.station.model.entity.Station;
 import com.whiteday.aiecolink.domain.station.model.request.StationRegisterReq;
@@ -16,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,6 +29,7 @@ public class StationService {
 
     private final StationRepository stationRepository;
     private final RegionRepository regionRepository;
+    private final BatteryService batteryService;
 
     public StationRegisterRes register(User user, StationRegisterReq registerReq){
         // 중복 체크
@@ -46,6 +50,9 @@ public class StationService {
                 .region(region)
                 .build()
         );
+
+        // 배터리 자동 생성
+        batteryService.autoCreateBattery(station, LocalDate.now());
 
         return new StationRegisterRes().toDto(station);
     }

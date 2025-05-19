@@ -21,6 +21,18 @@ import java.time.LocalDate;
 public class BatteryService {
     private final StationRepository stationRepository;
     private final BatteryRepository batteryRepository;
+    // 베터리 자동생성
+    public void autoCreateBattery(Station station,LocalDate today) {
+        // 배터리 자동 생성
+        Battery battery = Battery.builder()
+                .station(station)
+                .batteryCapacity((float) (20 + Math.random() * 60)) // 베터리 용량 : 20~80 사이 랜덤 생성
+                .date(today) // 배터리 등록하는 시점이 해당 날짜
+                .build();
+        // 배터리 저장
+        batteryRepository.save(battery);
+    }
+
     // 베터리 등록
     public BatteryRegisterRes register(Long stationId, User user, float batteryCapacity) {
         Station station = stationRepository.findById(stationId)
