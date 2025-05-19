@@ -15,6 +15,7 @@ import com.whiteday.aiecolink.domain.scheduling.model.response.HourlyScheduleDto
 import com.whiteday.aiecolink.domain.scheduling.model.response.SchedulingRes;
 import com.whiteday.aiecolink.domain.scheduling.repository.SchedulingHourlyRepository;
 import com.whiteday.aiecolink.domain.scheduling.repository.SchedulingPlanRepository;
+import com.whiteday.aiecolink.domain.station.model.entity.Battery;
 import com.whiteday.aiecolink.domain.station.model.entity.Station;
 import com.whiteday.aiecolink.domain.station.repository.StationRepository;
 import com.whiteday.aiecolink.global.client.AiModelClient;
@@ -63,7 +64,15 @@ public class SchedulingService {
                 .forecastDate(forecastDate)
                 .build());
 
+
+        float totalCost = 0;
+        float savingCost = 0;
         for (SchedulePredictionItem item : items) {
+            if(toString().valueOf(item.getAction()).equals("CHARGE")) {
+                totalCost += item.getPowerPayment();
+            } else {
+                savingCost += item.getPowerPayment();
+            }
             schedulingHourlyRepository.save(SchedulingHourly.builder()
                     .schedulingPlan(plan)
                     .hour(item.getHour())
@@ -73,8 +82,12 @@ public class SchedulingService {
                     .action(item.getAction())
                     .build());
         }
+        totalCost *= 100;
+        plan.setTotalCost(totalCost);
+        plan.setSavingCost(savingCost);
     }
 
+    // 충전소 대시보드 조회
     public SchedulingDashboardRes getDashboard(Long stationId) {
         Station station = stationRepository.findById(stationId)
                 .orElseThrow(() -> new CustomException(ErrorCode.STATION_NOT_EXIST));
@@ -94,7 +107,8 @@ public class SchedulingService {
                         .build())
                 .toList();
 
-        float totalCost = (float) hourlies.stream().mapToDouble(SchedulingHourly::getPowerPayment).sum();
+        float totalCost = plan.getTotalCost();
+        float savingCost = plan.getSavingCost();
         float totalSolar = (float) hourlies.stream().mapToDouble(SchedulingHourly::getPredictSolar).sum();
 
         return SchedulingDashboardRes.builder()
@@ -103,6 +117,7 @@ public class SchedulingService {
                 .scheduleList(scheduleList)
                 .totalCost(totalCost)
                 .totalSolar(totalSolar)
+                .savingCost(savingCost)
                 .build();
     }
 
@@ -123,6 +138,7 @@ public class SchedulingService {
         for (Station station : stations) {
             try {
                 log.info("🔄 시작: stationId={}, date={}", station.getStationId(), today);
+                // 충전소 배터리 용량 조회
 
                 // 🔹 0. 배터리 상태 확인
                 if (!batteryService.isBatteryAvailable(station, today)) {

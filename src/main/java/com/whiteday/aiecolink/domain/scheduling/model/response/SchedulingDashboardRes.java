@@ -15,5 +15,6 @@ public class SchedulingDashboardRes {
     private LocalDate forecastDate;
     private List<HourlyScheduleDto> scheduleList;
     private float totalCost;
+    private float savingCost;
     private float totalSolar;
 }

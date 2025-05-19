@@ -31,4 +31,18 @@ public class SchedulingPlan {
     @Column(nullable = false, columnDefinition = "timestamp")
     @CreationTimestamp
     private LocalDateTime createdAt;
+
+    @Column
+    private float totalCost;
+
+    @Column
+    private float savingCost;
+
+    public void setTotalCost(float totalCost) {
+        this.totalCost = totalCost;
+    }
+
+    public void setSavingCost(float savingCost) {
+        this.savingCost = savingCost;
+    }
 }
