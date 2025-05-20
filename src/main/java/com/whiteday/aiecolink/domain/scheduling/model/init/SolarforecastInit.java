@@ -25,12 +25,18 @@ public class SolarforecastInit implements CommandLineRunner {
     @Override
     public void run(String... args) {
         LocalDate yesterday = LocalDate.now().minusDays(1);
-        if (solarforecastPlanRepository.findByForecastDate(yesterday).isPresent()) {
-            return;
-        }
-        Region region = regionRepository.findByRegionId(35L)
-                .orElseThrow(() -> new CustomException(ErrorCode.REGION_NOT_FOUND));
 
+        // 전체 지역에 대해 예측 데이터 생성
+        for(Region region : regionRepository.findAll()) {
+            // 이미 예측 데이터가 존재하는 경우 건너뜀
+            if (solarforecastPlanRepository.findByRegion_RegionIdAndForecastDate(region.getRegionId(), yesterday).isPresent()) {
+                continue;
+            }
+            createForecastData(region, yesterday);
+        }
+    }
+
+    private void createForecastData(Region region, LocalDate yesterday) {
         SolarforecastPlan solarforecastPlan = SolarforecastPlan.builder()
                 .forecastDate(yesterday)
                 .region(region)
