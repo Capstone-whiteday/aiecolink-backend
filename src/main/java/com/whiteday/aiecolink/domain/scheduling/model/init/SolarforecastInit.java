@@ -5,8 +5,6 @@ import com.whiteday.aiecolink.domain.scheduling.model.entity.SolarforecastPlan;
 import com.whiteday.aiecolink.domain.scheduling.repository.SolarforecastPlanRepository;
 import com.whiteday.aiecolink.domain.station.model.entity.Region;
 import com.whiteday.aiecolink.domain.station.repository.RegionRepository;
-import com.whiteday.aiecolink.global.error.CustomException;
-import com.whiteday.aiecolink.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
