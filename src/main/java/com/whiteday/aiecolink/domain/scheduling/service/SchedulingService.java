@@ -185,4 +185,33 @@ public class SchedulingService {
         }
 
     }
+
+    public SchedulingDashboardRes getDashboardByDate(Long stationId, String date) {
+        Station station = stationRepository.findById(stationId)
+                .orElseThrow(() -> new CustomException(ErrorCode.STATION_NOT_EXIST));
+        LocalDate forecastDate = LocalDate.parse(date);
+        SchedulingPlan plan = schedulingPlanRepository.findByStationAndForecastDate(station, forecastDate)
+                .orElseThrow(() -> new CustomException(ErrorCode.SCHEDULE_NOT_FOUND));
+        List<SchedulingHourly> hourlies = schedulingHourlyRepository.findBySchedulingPlan(plan);
+        List<HourlyScheduleDto> scheduleList = hourlies.stream()
+                .map(h -> HourlyScheduleDto.builder()
+                        .hour(h.getHour())
+                        .predictSolar(h.getPredictSolar())
+                        .powerKw(h.getPowerKw())
+                        .powerPayment(h.getPowerPayment())
+                        .action(h.getAction())
+                        .build())
+                .toList();
+        float totalCost = plan.getTotalCost();
+        float savingCost = plan.getSavingCost();
+        float totalSolar = (float) hourlies.stream().mapToDouble(SchedulingHourly::getPredictSolar).sum();
+        return SchedulingDashboardRes.builder()
+                .stationId(station.getStationId())
+                .forecastDate(plan.getForecastDate())
+                .scheduleList(scheduleList)
+                .totalCost(totalCost)
+                .totalSolar(totalSolar)
+                .savingCost(savingCost)
+                .build();
+    }
 }
