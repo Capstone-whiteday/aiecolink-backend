@@ -14,4 +14,6 @@ public interface SchedulingPlanRepository extends JpaRepository<SchedulingPlan, 
     Optional<SchedulingPlan> findTopByStationOrderByForecastDateDesc(Station station);
 
     boolean existsByStationAndForecastDate(Station station, LocalDate forecastDate);
+
+    Optional<SchedulingPlan> findByStationAndForecastDate(Station station, LocalDate forecastDate);
 }

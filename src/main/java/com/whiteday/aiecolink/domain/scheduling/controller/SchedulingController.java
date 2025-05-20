@@ -27,4 +27,13 @@ public class SchedulingController {
         SchedulingDashboardRes response = schedulingService.getDashboard(stationId);
         return ResponseEntity.ok(response);
     }
+
+    // 날짜별 스케줄링 조회
+    @GetMapping("/dashboard/{stationId}/{date}")
+    public ResponseEntity<SchedulingDashboardRes> getDashboardByDate(
+            @PathVariable Long stationId,
+            @PathVariable String date) {
+        SchedulingDashboardRes response = schedulingService.getDashboardByDate(stationId, date);
+        return ResponseEntity.ok(response);
+    }
 }
