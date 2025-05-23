@@ -27,7 +27,8 @@ public enum ErrorCode {
     BATTERY_REGISTER_FAIL(HttpStatus.BAD_REQUEST, "베터리 등록에 실패했습니다."),
     BATTERY_NOT_EXIST(HttpStatus.NOT_FOUND, "베터리가 존재하지 않습니다."),
     BATTERY_UPDATE_FAIL(HttpStatus.BAD_REQUEST, "베터리 수정에 실패했습니다."),
-    SCHEDULE_ALREADY_EXIST(HttpStatus.ALREADY_REPORTED, "이미 예측된 스케줄이 존재합니다."),;
+    SCHEDULE_ALREADY_EXIST(HttpStatus.ALREADY_REPORTED, "이미 예측된 스케줄이 존재합니다."),
+    INVALID_AI_INPUT(HttpStatus.BAD_REQUEST, "AI 모델 입력 데이터의 길이가 올바르지 않습니다.");
 
     private final HttpStatus status;
     private final String message;

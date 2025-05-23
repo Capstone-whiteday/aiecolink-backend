@@ -10,6 +10,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Builder
@@ -37,6 +38,9 @@ public class SchedulingPlan {
 
     @Column
     private float savingCost;
+
+    @OneToMany(mappedBy = "schedulingPlan",fetch = FetchType.LAZY, cascade = CascadeType.ALL,  orphanRemoval = true)
+    private List<SchedulingHourly> schedulingHourlyList;
 
     public void setTotalCost(float totalCost) {
         this.totalCost = totalCost;
