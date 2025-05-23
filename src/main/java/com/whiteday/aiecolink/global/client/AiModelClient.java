@@ -36,6 +36,11 @@ public class AiModelClient {
                 .ppo_input(ppoInputs)
                 .build();
 
+        if (lstmInputs.size() != 24 || ppoInputs.size() != 24) {
+            log.error("❌ AI 입력 길이 오류: lstm={}, ppo={}", lstmInputs.size(), ppoInputs.size());
+            throw new CustomException(ErrorCode.INVALID_AI_INPUT);
+        }
+
         ObjectMapper mapper = new ObjectMapper();
         log.debug("🔎 AI 요청 JSON:\n{}", mapper.writeValueAsString(request));
 
