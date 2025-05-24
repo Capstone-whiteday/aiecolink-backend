@@ -1,5 +1,6 @@
 package com.whiteday.aiecolink.domain.station.service;
 
+import com.whiteday.aiecolink.domain.scheduling.service.BatteryService;
 import com.whiteday.aiecolink.domain.station.model.StationRegisterRes;
 import com.whiteday.aiecolink.domain.station.model.StationRes;
 import com.whiteday.aiecolink.domain.station.model.StationSummaryRes;
@@ -16,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,6 +28,7 @@ public class StationService {
 
     private final StationRepository stationRepository;
     private final RegionRepository regionRepository;
+    private final BatteryService batteryService;
 
     public StationRegisterRes register(User user, StationRegisterReq registerReq){
         // 중복 체크
@@ -47,6 +50,9 @@ public class StationService {
                 .build()
         );
 
+        // 배터리 자동 생성
+        batteryService.autoCreateBattery(station, LocalDate.now());
+
         return new StationRegisterRes().toDto(station);
     }
 
@@ -63,7 +69,7 @@ public class StationService {
 
     public StationRes readDetail(Long stationId, User user) {
         Station station = stationRepository.findById(stationId)
-                .orElseThrow(() -> new CustomException(ErrorCode.STATION_DOES_NOT_EXIST));
+                .orElseThrow(() -> new CustomException(ErrorCode.STATION_NOT_EXIST));
 
         // 사용자 소유 확인
         if (!station.getUser().getUserId().equals(user.getUserId())) {
@@ -84,7 +90,7 @@ public class StationService {
 
     public StationRes update(Long stationId, User user, StationUpdateReq req) {
         Station station = stationRepository.findById(stationId)
-                .orElseThrow(() -> new CustomException(ErrorCode.STATION_DOES_NOT_EXIST));
+                .orElseThrow(() -> new CustomException(ErrorCode.STATION_NOT_EXIST));
 
         // 사용자 소유 확인
         if (!station.getUser().getUserId().equals(user.getUserId())) {
@@ -106,7 +112,7 @@ public class StationService {
 
     public void delete(Long stationId, User user) {
         Station station = stationRepository.findById(stationId)
-                .orElseThrow(() -> new CustomException(ErrorCode.STATION_DOES_NOT_EXIST));
+                .orElseThrow(() -> new CustomException(ErrorCode.STATION_NOT_EXIST));
 
         // 사용자 소유 확인
         if (!station.getUser().getUserId().equals(user.getUserId())) {

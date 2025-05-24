@@ -1,5 +1,6 @@
 package com.whiteday.aiecolink.domain.station.model.entity;
 
+import com.whiteday.aiecolink.domain.scheduling.model.entity.SchedulingPlan;
 import com.whiteday.aiecolink.domain.station.model.Status;
 import com.whiteday.aiecolink.domain.member.model.entity.User;
 import jakarta.persistence.*;
@@ -11,6 +12,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Builder
@@ -51,6 +53,12 @@ public class Station {
 
     @Column
     private String description;
+
+    @OneToMany(mappedBy = "station",fetch = FetchType.LAZY, cascade = CascadeType.ALL,  orphanRemoval = true)
+    private List<SchedulingPlan> schedulingPlanList;
+
+    @OneToMany(mappedBy = "station",fetch = FetchType.LAZY, cascade = CascadeType.ALL,  orphanRemoval = true)
+    private List<Battery> batteryList;
 
     public void update(String name, String description,Status status) {
         this.name = name;

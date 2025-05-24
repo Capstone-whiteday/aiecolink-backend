@@ -29,8 +29,8 @@ springdoc:
 
 logging:
   level:
-    org.springframework.security: debug
-    org.hibernate.SQL: debug
+    org.springframework.security: info
+    org.hibernate.SQL: info
 
 jwt:
   secret: ${JWT_SECRET}

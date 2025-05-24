@@ -1,10 +1,7 @@
 package com.whiteday.aiecolink.domain.scheduling.model.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Getter
@@ -16,6 +13,7 @@ public class TouHourly {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tou_id")
     private TouPlan touPlan;
@@ -35,4 +33,7 @@ public class TouHourly {
     @Column(nullable = false)
     private float priceActual;
 
+    public void setTouPlan(TouPlan touPlan) {
+        this.touPlan = touPlan;
+    }
 }
