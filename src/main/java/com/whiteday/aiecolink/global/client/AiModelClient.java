@@ -26,7 +26,7 @@ public class AiModelClient {
 
     private final RestTemplate restTemplate;
 
-    @Value("${ai.endpoint.predict}")
+    @Value("${AI_ENDPOINT_PREDICT}")
     private String predictUrl;
 
     public List<SchedulePredictionItem> requestPrediction(float batteryCapacity,List<LstmInput> lstmInputs, List<PpoInput> ppoInputs) throws JsonProcessingException {
