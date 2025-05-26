@@ -3,7 +3,7 @@ package com.whiteday.aiecolink.domain.battery.controller;
 import com.whiteday.aiecolink.domain.battery.BatteryRegisterRes;
 import com.whiteday.aiecolink.domain.member.model.entity.User;
 import com.whiteday.aiecolink.domain.member.security.CustomUserDetails;
-import com.whiteday.aiecolink.domain.scheduling.service.BatteryService;
+import com.whiteday.aiecolink.domain.battery.service.BatteryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
