@@ -17,7 +17,7 @@ jobs:
           username: ubuntu  
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            cd ~/aiecolink-backend
+            cd ~/.ssh/aiecolink-backend
             git pull origin main
             ./deploy.sh
           command_timeout: 30m
