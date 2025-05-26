@@ -19,6 +19,6 @@ jobs:
           script: |
             cd ~/.ssh/aiecolink-backend
             git pull origin main
-            chmod +x ~/.ssh/aiecolink-backend/deploy.sh
+            chmod +x deploy.sh
             ./deploy.sh
           command_timeout: 30m
