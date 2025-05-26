@@ -1,6 +1,6 @@
 package com.whiteday.aiecolink.domain.station.service;
 
-import com.whiteday.aiecolink.domain.scheduling.service.BatteryService;
+import com.whiteday.aiecolink.domain.battery.service.BatteryService;
 import com.whiteday.aiecolink.domain.station.model.StationRegisterRes;
 import com.whiteday.aiecolink.domain.station.model.StationRes;
 import com.whiteday.aiecolink.domain.station.model.StationSummaryRes;

@@ -1,6 +1,6 @@
 package com.whiteday.aiecolink.domain.battery;
 
-import com.whiteday.aiecolink.domain.station.model.entity.Battery;
+import com.whiteday.aiecolink.domain.battery.entity.Battery;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

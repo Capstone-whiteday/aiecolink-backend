@@ -1,5 +1,6 @@
 package com.whiteday.aiecolink.domain.station.model.entity;
 
+import com.whiteday.aiecolink.domain.battery.entity.Battery;
 import com.whiteday.aiecolink.domain.scheduling.model.entity.SchedulingPlan;
 import com.whiteday.aiecolink.domain.station.model.Status;
 import com.whiteday.aiecolink.domain.member.model.entity.User;

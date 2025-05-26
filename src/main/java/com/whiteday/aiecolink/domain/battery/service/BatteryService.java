@@ -1,9 +1,9 @@
-package com.whiteday.aiecolink.domain.scheduling.service;
+package com.whiteday.aiecolink.domain.battery.service;
 
 import com.whiteday.aiecolink.domain.battery.BatteryRegisterRes;
 import com.whiteday.aiecolink.domain.battery.repository.BatteryRepository;
 import com.whiteday.aiecolink.domain.member.model.entity.User;
-import com.whiteday.aiecolink.domain.station.model.entity.Battery;
+import com.whiteday.aiecolink.domain.battery.entity.Battery;
 import com.whiteday.aiecolink.domain.station.model.entity.Station;
 import com.whiteday.aiecolink.domain.station.repository.StationRepository;
 import com.whiteday.aiecolink.global.error.CustomException;

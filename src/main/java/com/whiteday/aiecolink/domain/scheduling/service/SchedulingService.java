@@ -2,9 +2,9 @@ package com.whiteday.aiecolink.domain.scheduling.service;
 
 
 import com.whiteday.aiecolink.domain.battery.repository.BatteryRepository;
+import com.whiteday.aiecolink.domain.battery.service.BatteryService;
 import com.whiteday.aiecolink.domain.scheduling.factory.LstmInputFactory;
 import com.whiteday.aiecolink.domain.scheduling.factory.PpoInputFactory;
-import com.whiteday.aiecolink.domain.scheduling.model.Action;
 import com.whiteday.aiecolink.domain.scheduling.model.request.LstmInput;
 import com.whiteday.aiecolink.domain.scheduling.model.request.PpoInput;
 import com.whiteday.aiecolink.domain.scheduling.model.response.SchedulingDashboardRes;
@@ -15,7 +15,6 @@ import com.whiteday.aiecolink.domain.scheduling.model.response.HourlyScheduleDto
 import com.whiteday.aiecolink.domain.scheduling.model.response.SchedulingRes;
 import com.whiteday.aiecolink.domain.scheduling.repository.SchedulingHourlyRepository;
 import com.whiteday.aiecolink.domain.scheduling.repository.SchedulingPlanRepository;
-import com.whiteday.aiecolink.domain.station.model.entity.Battery;
 import com.whiteday.aiecolink.domain.station.model.entity.Station;
 import com.whiteday.aiecolink.domain.station.repository.StationRepository;
 import com.whiteday.aiecolink.global.client.AiModelClient;

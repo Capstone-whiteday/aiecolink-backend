@@ -1,5 +1,6 @@
-package com.whiteday.aiecolink.domain.station.model.entity;
+package com.whiteday.aiecolink.domain.battery.entity;
 
+import com.whiteday.aiecolink.domain.station.model.entity.Station;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,7 +9,6 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
 @Builder
